@@ -4,14 +4,30 @@ import(
 	"fmt"
 	"log"
 	"encoding/json"
+	"net/http"
 )
 
 type person struct{
 	Name string
 }
 
+func handlePage(){
+	http.HandleFunc("/encode",foo)
+	http.HandleFunc("/decode",bar)
+	http.ListenAndServe(":8080",nil)
+}
+
+func foo(w http.ResponseWriter, r *http.Request){
+
+}
+
+func bar(w http.ResponseWriter, r *http.Request){
+
+}
+
 func main() {
-	
+	handlePage()
+
 	//constructing
 	p1 := person{
 		Name: "john",
