@@ -6,6 +6,9 @@ lang: all
 ## web authentication with golang
 all about Encryption, jwt, Oauth, HMAC and more..
 
+## online crul builder
+[click here](https://tools.w3cub.com/curl-builder)
+
 ## go module
 ```
 go mod init folder-name or www.github.com/userName/repo-name
