@@ -22,9 +22,18 @@ func main() {
 
 	bt := []person{p1, p2}
 
+  //marshal
 	bs, err := json.Marshal(bt)
 	if err != nil{
 		log.Panic(err)
 	}
-	fmt.Println(string(bs))
+	fmt.Println("printing json ",string(bs))
+
+  //unmarshal
+   xp := []person{}
+   err = json.Unmarshal(bs,&xp)
+   if err != nil{
+	   log.Panic(err)
+   }
+   fmt.Println("back into a Go data structure ",xp)
 }
