@@ -23,6 +23,15 @@ for example:
 crul -u user:pass -v google.com
 ```
 
+## storing passwords
+never store passwords, instead store one-way encryption *"hash"* value of the password
+for added security:
+- hash on the client
+- hash that again on the server
+- hashing algorithms "bcrypt - current choice, scrypt - new choice"
+[more info about scrybt](https://www.tarsnap.com/scrypt.html)
+
+
 ## go module
 ```
 go mod init folder-name or www.github.com/userName/repo-name
