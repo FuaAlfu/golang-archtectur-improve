@@ -32,6 +32,17 @@ for added security:
 [more info about scrybt](https://www.tarsnap.com/scrypt.html)
 
 
+## Bearer Tokens & Hmac
+* bearer tokens
+- added to http spec with OAUTH2
+- uses authorization header & keyword *"bearer"*
+* to prevent faked bearer tokens, use cryptographic "signing"
+- cryptographic signing is a way to provethat the value was created by certain person
+-  HMAC
+* Hmac
+is a signing cryptographic algorithm "and that's all it is by itself" 
+
+
 ## go module
 ```
 go mod init folder-name or www.github.com/userName/repo-name
