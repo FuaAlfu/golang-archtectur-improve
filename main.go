@@ -4,13 +4,32 @@ import(
 	"fmt"
 	"encoding/base64"
 	"log"
+	"time"
 	"crypto/hmac"
 	"crypto/sha512"
 	_"encoding/json"
 	_"net/http"
 
 	"golang.org/x/crypto/bcrypt"
+	"github.com/dgrijalva/jwt-go"
 )
+
+type UserClaims struct{
+	jwt.StandardClaims
+	SessionID int64
+}
+
+func (u *UserClaims) Valid() error{
+	//check if token were expired or not..
+	if !u.VerifyExpiresAt(time.Now().Unix(), true) {
+		return fmt.Errorf("token has expired..")
+	}
+	if u.SessionID == 0{
+		return fmt.Errorf("invalid session ID")
+	}
+
+	return nil
+}
 
 var key []byte{0,1,2,3}
 
