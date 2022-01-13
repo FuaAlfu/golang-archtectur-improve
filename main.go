@@ -77,6 +77,24 @@ func createToken(c *UserClaims)(string, error){
 	return signedToken, nil
 }
 
+func parseToken(signedToken string)(*UserClaims, error){
+	//claims := &UserClaims
+	t, err := jwt.ParseWithClaims(signedToken,claims,func(t *jwt.Token)(interface{},error){
+		if t.Method.Alg() != jwt.SigningMethodHS512.Alg(){
+			return nil, fmt.Errorf("Invalid signing algorithm")
+		}
+		return key, nil
+	})
+	if err != nil{
+		return nil, fmt.Errorf("Error in parseToken while parsing token: %w",err)
+	}
+	if !t.Valid{
+		return nil, fmt.Errorf("Error in parseToken, token is not valid")
+	}
+	//assert, this is actually a type pointer to use claims
+	return t.Claims.(*UserClaims), nil
+}
+
 func main() {
 
 	//for hmac example
