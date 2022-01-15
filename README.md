@@ -9,6 +9,9 @@ all about Encryption, jwt, Oauth, HMAC and more..
 ## online crul builder
 [click here](https://tools.w3cub.com/curl-builder)
 
+## uuid generator
+[click here](https://www.uuidgenerator.net/)
+
 ## basic authentication
 basic authentication part of the specification of http
 send username / password with every request.
@@ -73,3 +76,6 @@ unset GOROOT
 ```
 go env -w GO111MODULE=off
 ```
+
+## Extra pkg
+[https://github.com/google/uuid](https://github.com/google/uuid)
