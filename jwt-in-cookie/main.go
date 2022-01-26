@@ -1,17 +1,35 @@
 package main
 
 import(
-	"crypto/hmac"
-	"crypto/sha256"
 	"fmt"
 	"io"
 	"net/http"
+	"time"
+
+	"github.com/dgrijavala/jwt-go"
 )
 
-func getCode(msg string)string{
-	h := hmac.New(sha256.New, []byte("I love you so much..."))
-	h.Write([]byte(msg))
-	return fmt.Sprintf("%x", h.Sum(nil))
+func getJWT(msg string)(string, error){
+	myKey := "I love you so much..."
+
+	type myClaims struct{
+		jwt.StandardClaims
+		Email string
+	}
+
+	claims := myClaims{
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(5 * time.Minute).Unix(), //old: 15000
+		},
+		Email: msg,
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &claims)
+	ss, err := token.SignedString([]byte(myKey))
+	if err != nil{
+		return "", err.Errorf("couldnt SignedString %w", err)
+	}
+	return ss, nil
 }
 
 func bar(w http.ResponseWriter, r *http.Request){
@@ -26,12 +44,16 @@ func bar(w http.ResponseWriter, r *http.Request){
 		return
 	}
 
-	code := getCode(email)
+	ss,err := getJWT(email)
+	if err != nil{
+		http.Error(w, "couldn't getjwt", http.StatusInternalServerError)
+		return
+	}
 
 	// *"hash / message digest / digest / hash value | "what we storge"
 	c := http.Cookie{
 		Name: "session",
-		Value: code + "|" + email,
+		Value: ss,
 	}
 
 	http.SetCookie(w, &c)
@@ -44,15 +66,7 @@ func foo(w http.ResponseWriter, r *http.Request){
 		c = &http.Cookie{}
 	}
 
-	isEqual := true
-	xs := strings.SplitN(c.Value, "|", 2)
-	if len(xs) == 2{
-		cCode := xs[0] //c means client
-		cEmail := xs[1]
-
-		code := getCode(cEmail)
-		isEqual = hmac.Equal(cCode, code)
-	}
+	//isEqual := true
 
 	message := "Not logged in"
 	if isEqual{
