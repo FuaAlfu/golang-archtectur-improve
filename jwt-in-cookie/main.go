@@ -9,14 +9,14 @@ import(
 	"github.com/dgrijavala/jwt-go"
 )
 
+type myClaims struct{
+	jwt.StandardClaims
+	Email string
+}
+
+const myKey = "I love you so much..."
+
 func getJWT(msg string)(string, error){
-	myKey := "I love you so much..."
-
-	type myClaims struct{
-		jwt.StandardClaims
-		Email string
-	}
-
 	claims := myClaims{
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(5 * time.Minute).Unix(), //old: 15000
@@ -65,6 +65,11 @@ func foo(w http.ResponseWriter, r *http.Request){
 	if err != nil{
 		c = &http.Cookie{}
 	}
+
+	ss := c.Value
+	afterVeritification, err := jwt.ParseWithClaims(ss,&myClaims{},func(beforeVeritification *jwt.Token)(interface{},error){ //t *jwt.Token
+		return []byte(myKey), nil
+	})
 
 	//isEqual := true
 
