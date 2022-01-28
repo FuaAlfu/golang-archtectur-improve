@@ -67,16 +67,21 @@ func foo(w http.ResponseWriter, r *http.Request){
 	}
 
 	ss := c.Value
-	afterVeritification, err := jwt.ParseWithClaims(ss,&myClaims{},func(beforeVeritification *jwt.Token)(interface{},error){ //t *jwt.Token
+	afterVeritificationToken, err := jwt.ParseWithClaims(ss,&myClaims{},func(beforeVeritification *jwt.Token)(interface{},error){ //t *jwt.Token
 		return []byte(myKey), nil
 	})
 
-	//isEqual := true
+	isEqual := afterVeritificationToken.Valid
 
 	message := "Not logged in"
 	if isEqual{
 		message = "Logged in"
 	}
+
+	
+	claims := afterVeritificationToken.Claims.(*myClaims)
+	fmt.Println(claims.Email)
+	fmt.Println(claims.ExpiredAt)
 
 	html := `<!DOCTYPE html>
 	<html lang="en">
