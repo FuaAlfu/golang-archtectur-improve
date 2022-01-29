@@ -71,17 +71,29 @@ func foo(w http.ResponseWriter, r *http.Request){
 		return []byte(myKey), nil
 	})
 
-	isEqual := afterVeritificationToken.Valid
+	/*
+	StandaredClaims has the ..
+	Valid() error
+	...method witch means it implements the Claims interface...
+
+	type Claims interface{
+		Valid() error
+	}
+
+	...when you ParseWithClaims ...
+	the Valid() method gets run
+	...and if all is well, then returns no "error" and
+	type TOKEN witch has a field VALID will be true
+	*/
+	isEqual := afterVeritificationToken.Valid && err == nil
 
 	message := "Not logged in"
 	if isEqual{
 		message = "Logged in"
+		claims := afterVeritificationToken.Claims.(*myClaims)
+	    fmt.Println(claims.Email)
+	    fmt.Println(claims.ExpiredAt)
 	}
-
-	
-	claims := afterVeritificationToken.Claims.(*myClaims)
-	fmt.Println(claims.Email)
-	fmt.Println(claims.ExpiredAt)
 
 	html := `<!DOCTYPE html>
 	<html lang="en">
