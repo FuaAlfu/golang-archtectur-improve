@@ -49,6 +49,34 @@ is a signing cryptographic algorithm "and that's all it is by itself"
 json web token
 {jtw standerd field}.{your fields}.Signature
 
+## OAuth2
+has several ways of making it work, but the most common one is the
+client credentials method.
+the other one that's common is implicit from the point of view of the user.
+both of them are identical client credentials, has more security behind it.
+the implicit, however works, if the implicit one
+works better, through if you're using like a front end only website, like react
+only with no actual back end.
+
+so OAtuh2 allows a user authorizes ne website to do something at another
+website.
+example: give one website access to your dropbox accountto store files there or retrive files from there.
+and we also use OAuth to login.
+example: login with facebook.
+*there is 4 ways, but the common ways is:*
+- client credentials
+```
+    more secure way, but requires a server
+   "three" legged flow
+```
+- implicit
+```
+   less secure
+   "two" legged flow
+```
+### OAuth vs OAuth2
+surprisingly enough, OAuth is actually more secure
+
 ## go module
 ```
 go mod init folder-name or www.github.com/userName/repo-name
@@ -57,6 +85,11 @@ go mod init folder-name or www.github.com/userName/repo-name
 ## latest packs
 ```
 go mod tidy
+```
+
+## godotenv
+```
+go get github.com/joho/godotenv
 ```
 
 ## get version of module - analyzing a package to see if it's go module compatible

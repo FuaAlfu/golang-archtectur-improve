@@ -13,6 +13,10 @@
 
 private.pem
 
+# dotenv environment variables file
+.env
+.env.test
+
 #  Workspaces for editors
 *.code-Workspace
 *.sublime-project
