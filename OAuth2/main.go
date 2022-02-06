@@ -7,7 +7,17 @@ import(
 	"net/http"
 
 	"github.com/joho/godotenv"
+	"github.org/x/oauth2"
+	"github.org/x/oauth2/github"
 )
+
+var githubLoginAttempts = make(map[string])
+
+var githubOauthConfig = &oauth2.Config{
+	ClientID: godotenv.Load(".env"),
+	ClientSecret: godotenv.Load(".env"),
+	Endpoint: github.Endpoint,
+}
 
 func goDotEnvVariable(key string) string {
 	// load .env file
@@ -54,7 +64,8 @@ func index(w http.ResponseWriter, r *http.Request){
 }
 
 func startGithubOauth(w http.ResponseWriter, r *http.Request){
-
+	redirectURL := githubOauthConfig.AuthCodeURL("0000") //need to create database with uniq id
+	http.Redirect(w,r, redirectURL, http.StatusSeeOther)
 }
 
 func homePage(w http.ResponseWriter, r *http.Request){
