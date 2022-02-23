@@ -77,6 +77,12 @@ example: login with facebook.
 ### OAuth vs OAuth2
 surprisingly enough, OAuth is actually more secure
 
+## go docs
+use go docs to look for code, inside any pkg
+```
+go doc github.com/go-pkg/example
+```
+
 ## go module
 ```
 go mod init folder-name or www.github.com/userName/repo-name
